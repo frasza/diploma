@@ -1,0 +1,108 @@
+{% extends "template.html" %}
+{% block title %} O ALS | {{super()}}{% endblock %}
+{% block body %}
+    <body id="mainBG">
+        {% block content %}
+       <div class="topnav">
+       <div class="logo">
+            <a href="/">ALSkupnost</a>
+        </div>
+          <a href="/">Domov</a>
+          <a href="/uspesnost/">Uspešnost</a>
+          <a href="/o_als">O ALS</a>
+          <a href="/stevilke">Pomembne številke</a>
+          {% if session['logged_in'] %}
+          <a href="/odjava" id="login">Odjava</a>
+          <a href="#" id="login" class="btn disabled">{{session["username"]}}, pozdravljeni!</a>
+           {% else %}
+           <a href="/prijava" id="login">Prijava / Registracija</a>
+           {% endif %}
+          <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+        </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <p><span style="font-size: 20px;"><strong>Kaj je ALS?</strong></span><br>
+                        Amiotrofična lateralna skleroza (ALS) je napredujoča bolezen motoričnih (gibalnih) živčnih celic v 
+                        možganski skorji (zgornji motorični nevroni) ter v možganskem deblu in v hrbtenjači (spodnji motorični 
+                        evroni). Zato je za ALS v rabi tudi ime bolezen motoričnega nevrona (BMN), čeprav je - strogo vzeto - 
+                        ALS le ena od oblik BMN. Pri drugih so namreč lahko prizadeti samo spodnji ali samo zgornji motorični 
+                        nevroni. Če pojasnimo še posamezne izraze iz besedne zveze ALS. Amiotrofija pomeni usahlost mišic oz. 
+                        zmanjšanje mišične mase. Lateralen je odmaknjen od sredinske črte, oz. bočen ali stranski. 
+                        To se nanaša na lokacijo okvare v hrbtenjači, ki pa ima značilnosti skleroze, 
+                        kar pomeni bolezensko zatrditev tkiva. Gre torej za zatrjevanje stranskih hrbtenjačnih stebričkov 
+                        povezano z zmanjševanjem mišične mase.</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <img class="img-responsive" src="http://cdn.images.express.co.uk/img/dynamic/11/590x/Stephen-Hawking-505747.jpg" alt="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img class="img-responsive" src="https://img.washingtonpost.com/rf/image_1484w/2010-2019/WashingtonPost/2014/08/18/Style/Images/Chiefs_Camp_Football-07a60.jpg?t=20170517" alt="">
+                    </div>
+                    <div class="col-sm-8">
+                        <p><span style="font-size: 20px;"><strong>Kakšni so znaki bolezni?</strong></span><br>
+                        Krčenje mišic upravljajo možgani, kjer nastaneta tako ideja kot načrt giba. Za izvedbo giba poskrbijo 
+                        živčne celice v motorični možganski skorji in v možganskem deblu ter v hrbtenjači, ki so pri ALS 
+                        okvarjene. Ko izginevajo, postanejo mišice, ki jih oživčujejo šibke in nefunkcionalne. 
+                        Najbolj tipično se bolezen najprej pokaže z oslabitvijo skupine mišic v enem od udov. 
+                        Slabitev postopno zajame tudi sosednje mišice, nato mišice na drugi strani telesa, 
+                        končno pa še mišice za dihanje, govor in požiranje. Drugi znaki bolezni so nespretnost pri 
+                        rokovanju s predmeti in počasnost gibov, utrudljivost, izginjanje mišic (atrofija), 
+                        spastičnost, krči, trzljaji v mišicah in drugi. Znaki prizadetosti drugih predelov možganske skorje 
+                        (npr. motnje spoznavnih sposobnosti, notranjega govora…) so izjema. 
+                        Praviloma je neprizadeto tudi gibanje oči, zadrževanje vode in blata ter občutenje, sluh in vid. 
+                        Mišice, ki niso neposredno pod našo hoteno kontrolo, kot npr. tiste, ki zagotavljajo utripanje srce, 
+                        ter gibe prebavne cevi in sečnega mehurja, prav tako ostanejo neprizadete. 
+                        Težave, ki niso neposredna posledica šibkosti mišic, kot npr. depresija in anksioznost, motnje spanja, 
+                        zaprtje, čezmerno slinjenje, simptomi kronične dihalne nezadostnosti, bolečina, 
+                        lahko v posameznih fazah bolezni močno poslabšajo kakovost življenja. </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><span style="font-size: 20px;"><strong>Kaj povzroča bolezen?</strong></span><br>
+                        Vzroki za nastanek ALS niso znani, hipotez pa je več. Še pred leti se je zdelo, da je vzrok lahko en sam. 
+                        Danes smo skoraj prepričani, da je vzrokov več in da jih je pri posameznem bolniku lahko vpletenih več 
+                        hkrati. Omenjajo ekscitotoksično okvaro živčnih celic, motnje imunskega odziva, okužbe, 
+                        pomanjkanje nevrotrofičnih faktorjev, zastrupitve, motnje v delovanju hormonov in motnje v delovanju 
+                        mitohondrijev. Edini znani vzrok je genetski. Ekscitotoksična teorija temelji na podmeni, da čezmerno 
+                        kopičenje spodbujevalnega (ekscitatornega) prenašalca (nevrotransmitorja) glutamata povzroči propad živčnih 
+                        celic. V možganih bolnikov z ALS so res dokazali čezmerno kopičenje te snovi. Ne ve pa se natanko ali gre za 
+                        čezmerno sintezo ali za motnjo v njegovem odstranjevanju. Zdravilo riluzol 
+                        (pri nas preparata Rilutek in Sclefic) naj bi delovalo protiglutamatno. 
+                        Po imunski hipotezi naj bi se proti sestavinam normalnih gibalnih živčnih celic tvorila protitelesa in jih 
+                        tako uničevala. Zanesljivih dokazov za to hipotezo ni, pa tudi zdravljenje, ki je uspešno pri drugih 
+                        avtoimunskih bolezni, je pri ALS neučinkovito. Med virusi, ki naj bi bili povezani z ALS, omenjajo viruse, 
+                        ki povzročajo otroško paralizo, AIDS in podobne. Strupeni naj bi bili nekateri kemijski elementi, npr. svinec, 
+                        aluminij, mangan, kalcij, selen. Omenja se tudi možnost, da se ALS razvije po električni poškodbi živčevja. 
+                        Živčne celice potrebujejo za svoj razvoj in preživetje razne nevrotrofične faktorje; njihovo pomanjkanje bi 
+                        lahko povzročilo prezgodnjo celično smrt. Za nastanek ALS naj bi bili vsaj delno lahko odgovorni tudi tako 
+                        imenovani prosti radikali. Te molekule so normalna sestavina celic in so električno nabite. Normalno jih telo 
+                        amo nevtralizira, v prevelikih količinah pa so zanj strupene. Proti škodljivemu delovanju teh snovi naj bi 
+                        učinkovala zdravila, ki jih imenujemo antioksidanti (npr. vitamini E, C in Q10). Ena od hipotez pravi, da do 
+                        razvoja bolezni pride zaradi napak v delovanju mitohondrijev. Gre za celične sestavine, 
+                        ki zagotavljajo energijo za njihovo delovanje. Večina celic ima vgrajen program, ki privede do njihove smrti 
+                        (programirana celična smrt ali apoptoza). Pod določenim pogoji je progarmirana celična smrt normalna. 
+                        Pri degenerativnih boleznih, kot npr. ALS, pa se ta program aktivira prezgodaj.</p>
+                    </div>
+                </div>
+            </div>
+
+
+			<script type="text/javascript">
+			 function goToNewPage(i) {
+                if(document.getElementById('menu1').value){
+                    window.location.href = document.getElementById('menu1').value;
+                }
+            }
+			</script>
+    {% endblock%}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://files-stackablejs.netdna-ssl.com/stacktable.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/javascript.js"></script>
+</body>
+{% endblock%}

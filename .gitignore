@@ -1,0 +1,12 @@
+/__pycache__
+experiences.db
+/Include
+*.pyc
+*~
+pip-selfcheck.json
+pyvenv.cfg
+/Lib
+Scripts
+/.idea
+/.vscode
+/env

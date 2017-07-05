@@ -1,0 +1,49 @@
+{% extends "template.html" %}
+{% block title %} Categories | {{super()}}{% endblock %}
+{% block body %}
+    <body id="mainBG">
+        {% block content %}
+       <div class="topnav" id="myTopnav">
+       <div class="logo">
+            <a href="/">ALSkupnost</a>
+        </div>
+          <a href="/">Domov</a>
+          <a href="/uspesnost/">Uspešnost</a>
+          <a href="/o_als">O ALS</a>
+          <a href="/stevilke">Pomembne številke</a>
+          {% if session['logged_in'] %}
+          <a href="/odjava" id="login">Odjava</a>
+          <a href="#" id="login" class="btn disabled">{{session["username"]}}, pozdravljeni!</a>
+           {% else %}
+           <a href="/prijava" id="login">Prijava / Registracija</a>
+           {% endif %}
+          <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+        </div>
+
+            <div class="container">
+            <h3>Izberi kategorijo in si oglej njeno uspešnost</h3>
+            <div class="form-group">
+            <select name="menu1" id="menu1" class="form-control">
+			<option value="/uspesnost_kategorije/Prehrana/">Prehrana</option>
+			<option value="/uspesnost_kategorije/Fizična aktivnost/">Fizična aktivnost</option>
+			<option value="/uspesnost_kategorije/Uporaba pripomočkov/">Uporaba pripomočkov</option>
+			<option value="/uspesnost_kategorije/Terapija/">Terapija</option>
+			<option value="/uspesnost_kategorije/Zdravila/">Zdravila</option>
+			</select>
+            </div>
+			<input type="button" class="btn btn-primary btn-block" onclick="goToNewPage(1)" value="Poglej uspešnost kategorije">
+			</div>
+			<script type="text/javascript">
+			 function goToNewPage(i) {
+                if(document.getElementById('menu1').value){
+                    window.location.href = document.getElementById('menu1').value;
+                }
+            }
+			</script>
+    {% endblock%}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://files-stackablejs.netdna-ssl.com/stacktable.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/javascript.js"></script>
+</body>
+{% endblock%}

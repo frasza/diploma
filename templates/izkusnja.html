@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Task View | Tasker</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<title>{% block title %}Tasker{% endblock %}</title>
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+		<script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+	</head>
+	<body>
+	div class="topnav" id="myTopnav">
+       <div class="logo">
+            <a href="/">ALSkupnost</a>
+        </div>
+          <a href="/">Domov</a>
+          <a href="/uspesnost/">Uspešnost</a>
+          <a href="/o_als">O ALS</a>
+          <a href="/stevilke">Pomembne številke</a>
+          {% if session['logged_in'] %}
+          <a href="/odjava" id="login">Odjava</a>
+          <a href="#" id="login" class="btn disabled">{{session["username"]}}, pozdravljeni!</a>
+           {% else %}
+           <a href="/prijava" id="login">Prijava / Registracija</a>
+           {% endif %}
+          <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+        </div>
+        
+		<div class="container-fluid" id="existing-tasks">
+                <div class="col-md-6 " id="open-tasks">
+                    <table class="table table-hover large-only">
+                        <thead>
+                            <tr>
+                                <th width="300px"><strong>Naslov</strong></th>
+                                <th width="100px"><strong>Opis</strong></th>
+                                <th width="100px"><strong>Spremembe</strong></th>
+                                <th width="150px"><strong>Kategorija</strong></th>
+                                <th width="100px"><strong>Stroški</strong></th>
+                                <th width="100px"><strong>Podpora</strong></th>
+                                <th width="150px"><strong>Pomagalo</strong></th>
+                                <th width="100px"><strong>Avtor</strong></th>
+                            </tr>
+                        </thead>
+                        {% for entry in entries %}
+                            <tr>
+                                <td width="300px" class="mobile-title">{{ entry.title }}</td>
+                                <td width="300px">{{ entry.description }}</td>
+                                <td width="100px">{{ entry.changes }}</td>
+                                <td width="150px">{{ entry.category }}</td>
+                                <td width="100px">{{ entry.costs }}</td>
+                                <td width="100px">{{ entry.approval }}</td>
+                                <td width="150px">{{ entry.work }}</td>
+                                <td width="100px">{{ entry.user_id }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    </div>
+                </div>
+
+		<!--
+			<div class="chart-demo">
+			    <h3 class="bar-chart-title">Priority Frequency</h3>
+			    <canvas id="chart"></canvas>
+			</div>
+		    <div class="chart-demo">
+			    <h3 class="pie-chart-title">Priority %</h3>
+			    <canvas id="pie"></canvas>
+		  	</div>
+		  	<div class="chart-demo">
+			    <h3 class="bar-chart-title">Priority Frequency</h3>
+			    <canvas id="achart"></canvas>
+			</div>
+		    <div class="chart-demo">
+			    <h3 class="pie-chart-title">Priority %</h3>
+			    <canvas id="apie"></canvas>
+		  	</div>
+	
+		<script>
+		  // Global parameters:
+		// do not resize the chart canvas when its container does (keep at 600x400px)
+		Chart.defaults.global.legend.position = 'left';
+		 
+		// define the chart data
+		var chartData = {
+		  labels : [{% for item in labels %}
+		             "Priority {{item}}",
+		            {% endfor %}],
+		  datasets : [{
+		      label: '{{ legend }}',
+		      backgroundColor: "#1f77b4",
+		      data : [{% for item in values %}
+		                " {{item}}",
+		              {% endfor %}],
+		  }]
+
+		}
+		var pieData = {
+		  labels : [{% for item in labels %}
+		             "Priority {{item}}",
+		            {% endfor %}],
+		  datasets : [{
+		      backgroundColor: ["#1f77b4", "#FF7F0E", "#2CA02C", "#D62728", "#9467BD"],
+		      data : [{% for item in odstotek %}
+		                " {{item}}",
+		              {% endfor %}],
+		  }]
+
+		}
+
+		var ChartOptions = {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero: true
+		                }
+		            }]
+		        },
+		        legend: {
+		            display: false
+		        },
+			    responsive : true,
+		}
+
+		var PieOptions = {
+			responsive : true,
+		}
+		 
+
+		// get chart canvas
+		var ctx = document.getElementById("chart").getContext("2d");
+		var cta = document.getElementById("pie").getContext("2d");
+		var ctb = document.getElementById("achart").getContext("2d");
+		var ctc = document.getElementById("apie").getContext("2d");
+
+		 
+		// create the chart using the chart canvas
+		var myChart = new Chart(ctx, {
+		  type: 'bar',
+		  data: chartData,
+		  options: ChartOptions,   
+		});
+
+		var myPieChart = new Chart(cta,{
+		    type: 'pie',
+		    data: pieData,
+		    options: PieOptions, 
+		});
+		var amyChart = new Chart(ctb, {
+		  type: 'bar',
+		  data: chartData,
+		  options: ChartOptions,   
+		});
+
+		var amyPieChart = new Chart(ctc,{
+		    type: 'pie',
+		    data: pieData,
+		    options: PieOptions, 
+		});
+		</script>
+		-->
+		
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/javascript.js') }}"></script>
+	</body>
+</html>

@@ -1,0 +1,86 @@
+{% extends "template.html" %}
+{% block title %} Add Task | {{super()}}{% endblock %}
+{% block body %}
+    <body id="mainBG">
+        {% block content %}
+       <div class="topnav" id="myTopnav">
+       <div class="logo">
+            <a href="/">ALSkupnost</a>
+        </div>
+          <a href="/">Domov</a>
+          <a href="/uspesnost/">Uspešnost</a>
+          <a href="/o_als">O ALS</a>
+          <a href="/stevilke">Pomembne številke</a>
+          {% if session['logged_in'] %}
+          <a href="/odjava" id="login">Odjava</a>
+          <a href="#" id="login" class="btn disabled">{{session["username"]}}, pozdravljeni!</a>
+           {% else %}
+           <a href="/prijava" id="login">Prijava / Registracija</a>
+           {% endif %}
+          <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+        </div>
+
+            <div class="container">
+                <h3>Vpis nove izkušnje</h3>
+                <form action="{{ url_for('new_entry') }}" method="post">
+                    <div class="form-group">
+                        <label>Naslov izkušnje</label>
+                        <input name="title" class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Opis izkušnje</label>
+                        <textarea name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Opažene spremembe</label>
+                        <textarea name="changes" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategorija</label>
+                        <select name="category" class="form-control" width="100px">
+                            <option value="Prehrana">Prehrana</option>
+                            <option value="Fizična aktivnost">Fizična aktivnost</option>
+                            <option value="Uporaba pripomočkov">Uporaba pripomočkov</option>
+                            <option value="Terapija">Terapija</option>
+                            <option value="Zdravila">Zdravila</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mesečni stroški</label>
+                        <select name="costs" class="form-control" width="100px">
+                            <option value="10 - 50 €">10 - 50 €</option>
+                            <option value="50 - 100 €">50 - 100 €</option>
+                            <option value="100 - 500 €">100 - 500 €</option>
+                            <option value="500 - 1000 €">500 - 1000 €</option>
+                            <option value="Več kot 1000 €">Več kot 1000 €</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Podpora medicine?</label>
+                        <select name="approval" class="form-control" width="100px">
+                            <option value="Da">Da</option>
+                            <option value="Ne">Ne</option>
+                            <option value="Nevem">Nevem</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kako se vam zdi, da je pomagalo?</label>
+                        <select name="work" class="form-control" width="100px">
+                            <option value="Sploh ni pomagalo">Sploh ni pomagalo</option>
+                            <option value="Ni pomagalo">Ni pomagalo</option>
+                            <option value="Niti niti">Niti niti</option>
+                            <option value="Je pomagalo">Je pomagalo</option>
+                            <option value="Zelo je pomagalo">Zelo je pomagalo</option>
+                        </select>
+                    </div>
+                    
+                    <input class="btn btn-primary btn-block" type="submit" value="Dodaj izkušnjo" style="margin: 30px 0 50px 0;">
+                </form>
+            </div>
+    {% endblock%}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://files-stackablejs.netdna-ssl.com/stacktable.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/javascript.js"></script>
+</body>
+{% endblock%}
