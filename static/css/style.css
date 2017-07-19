@@ -45,12 +45,19 @@ Nav
     display: none;
 }
 
+#login {
+   float: right;
+}
+
 
 @media screen and (max-width: 830px) {
   .topnav a:not(:first-child) {display: none;}
   .topnav a.icon {
     float: right;
     display: block;
+  }
+  #login {
+   float: none;
   }
 }
 
@@ -69,10 +76,6 @@ Nav
 
 }
 
-
-#login {
-   float: right;
-}
 
 .logo{
   color:white;
@@ -227,13 +230,13 @@ tr.hover {
 
 
 #chart, #achart {
-    max-width: 700px;
+    max-width: 600px;
     height: auto !important;
     margin: 0 auto;
 }
 
 #pie, #costsPie {
-    max-width: 360px;
+    max-width: 340px;
     height: auto !important;
     margin: 0 auto;
 }

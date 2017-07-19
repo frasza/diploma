@@ -11,8 +11,8 @@ SECRET_KEY = 'reg347gwzf85h45giuwg'
 MAIL_SERVER='smtp.gmail.com'
 MAIL_PORT=465
 MAIL_USE_SSL=True
-MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+MAIL_USERNAME = os.environ.get('MAILUSERNAME')
+MAIL_PASSWORD = os.environ.get('MAILPASSWORD')
 MAIL_DEFAULT_SENDER = "zan.fraas@gmail.com"
 
 # define the full path for the database
