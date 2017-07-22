@@ -1,5 +1,5 @@
 {% extends "template.html" %}
-{% block title %} Add Task | {{super()}}{% endblock %}
+{% block title %} Vpis nove izkušnje | {{super()}}{% endblock %}
 {% block body %}
     <body id="mainBG">
         {% block content %}
@@ -29,11 +29,11 @@
                     </div>
                     <div class="form-group">
                         <label>Opis izkušnje</label>
-                        <textarea name="opis" class="form-control" rows="3"></textarea>
+                        <textarea name="opis" class="form-control" rows="6"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Opažene spremembe</label>
-                        <textarea name="spremembe" class="form-control" rows="3"></textarea>
+                        <textarea name="spremembe" class="form-control" rows="4"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Kategorija</label>
@@ -65,7 +65,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Kako se vam zdi, da je izkusnja vplivala na pocutje bolnika?</label>
+                        <label>Kako se vam zdi, da je izkusnja vplivala na počutje bolnika?</label>
                         <select name="vpliv" class="form-control" width="100px">
                             <option value="Zelo negativno">Zelo negativno</option>
                             <option value="Negativno">Negativno</option>

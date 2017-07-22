@@ -96,7 +96,6 @@ def index():
         "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id")
     vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
                     vpliv=row[6], vnos_id=row[7], uporabnik_id=row[8]) for row in c.fetchall()]
-
     db.close()
 
     return render_template(
@@ -229,3 +228,15 @@ def als():
 # @login_required
 def stevilke():
     return render_template('stevilke.html')
+
+
+@app.route('/delete/<int:vnos_id>')
+@login_required
+def delete_entry(vnos_id):
+    db = connect_db()
+    
+    db.execute('DELETE FROM vnosi WHERE vnos_id ='+str(vnos_id))
+
+    db.commit()
+    db.close()
+    return redirect(url_for('index'))
