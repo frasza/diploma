@@ -20,6 +20,6 @@ function myFunction() {
 $( "#toggleVnosi" ).click(function() {
     $( "#item" ).toggle();
     $(this).text(function(i, text){
-        return text === "Skrij vse vnose kategorije" ? "Prikaži vse vnose kategorije" : "Skrij vse vnose kategorije";
+        return text === "Prikaži vse vnose kategorije" ? "Skij vse vnose kategorije" : "Prikaži vse vnose kategorije";
     })
 });
