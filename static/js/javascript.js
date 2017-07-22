@@ -16,3 +16,10 @@ function myFunction() {
         x.className = "topnav";
     }
 }
+
+$( "#toggleVnosi" ).click(function() {
+    $( "#item" ).toggle();
+    $(this).text(function(i, text){
+        return text === "Skrij vse vnose kategorije" ? "Prikaži vse vnose kategorije" : "Skrij vse vnose kategorije";
+    })
+});

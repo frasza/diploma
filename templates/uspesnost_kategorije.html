@@ -10,6 +10,7 @@
 		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 		<script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+		
 	</head>
 	<body>
 	<div class="topnav" id="myTopnav">
@@ -30,35 +31,32 @@
         </div>
 
 	<div class="container-fluid">
-                <div class="col-md-6 " id="open-tasks">
-                    <table class="table table-hover large-only">
+                <div class="col-md-12">
+				<a class="btn btn-default" id="toggleVnosi" href="#">Skrij vse vnose kategorije</a>
+				<div id="item">
+				<table class="table table-hover large-only">
                         <thead>
                             <tr>
                                 <th width="300px"><strong>Naslov</strong></th>
-                                <th width="150px"><strong>Opis</strong></th>
-                                <th width="150px"><strong>Spremembe</strong></th>
-                                <th width="150px"><strong>Kategorija</strong></th>
+                                <th width="200px"><strong>Kategorija</strong></th>
                                 <th width="150px"><strong>Stroški</strong></th>
-                                <th width="150px"><strong>Podpora / odobritev medicine</strong></th>
-                                <th width="150px"><strong>Vpliv na počutje</strong></th>
+                                <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
+                                <th width="200px"><strong>Vpliv na počutje</strong></th>
                                 <th width="150px"><strong>Avtor</strong></th>
                             </tr>
                         </thead>
                         {% for vnos in vnosi %}
                             <tr>
                                 <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
-                                <td width="150px">
-                                    <a class="btn btn-default btn-sm" data-toggle="popover" title="Notes" data-content="{{vnos.opis}}" data-placement="top" data-animation="true">Opis</a>
-                                </td>
-                                <td width="150px">{{ vnos.spremembe }}</td>
-                                <td width="150px">{{ vnos.kategorija }}</td>
+                                <td width="200px">{{ vnos.kategorija }}</td>
                                 <td width="150px">{{ vnos.stroski }}</td>
-                                <td width="150px">{{ vnos.odobritev }}</td>
-                                <td width="150px">{{ vnos.vpliv }}</td>
+                                <td width="300px">{{ vnos.odobritev }}</td>
+                                <td width="200px">{{ vnos.vpliv }}</td>
                                 <td width="150px">{{ vnos.uporabnik_id }}</td>
                             </tr>
                         {% endfor %}
-                    </table>
+					</table>
+				</div>	
                     </div>
                 </div>
             {% if costsValues or priorityLabels or approvalValues|length >= 1 %}
@@ -186,12 +184,10 @@
 		    data: costspieData,
 		    options: PieOptions
 		});
+
 		</script>
 
-		
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/javascript.js') }}"></script>
 	</body>

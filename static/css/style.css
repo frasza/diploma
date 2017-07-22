@@ -131,21 +131,6 @@ Containers
 }
 }
 
-#existing-tasks {
-	margin-top: 50px;
-	width: 100%;
-}
-
-#open-tasks {
-	width: 100%;
-}
-
-#existing-tasks:after {
-	margin-bottom: 50px;
-}
-
-
-
 table
 {
     margin-left: auto;
