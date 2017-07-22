@@ -25,19 +25,19 @@
                 <form action="{{ url_for('new_entry') }}" method="post">
                     <div class="form-group">
                         <label>Naslov izkušnje</label>
-                        <input name="title" class="form-control" type="text">
+                        <input name="naslov" class="form-control" type="text">
                     </div>
                     <div class="form-group">
                         <label>Opis izkušnje</label>
-                        <textarea name="description" class="form-control" rows="3"></textarea>
+                        <textarea name="opis" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Opažene spremembe</label>
-                        <textarea name="changes" class="form-control" rows="3"></textarea>
+                        <textarea name="spremembe" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Kategorija</label>
-                        <select name="category" class="form-control" width="100px">
+                        <select name="kategorija" class="form-control" width="100px">
                             <option value="Prehrana">Prehrana</option>
                             <option value="Fizična aktivnost">Fizična aktivnost</option>
                             <option value="Uporaba pripomočkov">Uporaba pripomočkov</option>
@@ -47,7 +47,8 @@
                     </div>
                     <div class="form-group">
                         <label>Mesečni stroški</label>
-                        <select name="costs" class="form-control" width="100px">
+                        <select name="stroski" class="form-control" width="100px">
+                            <option value="Ni stroškov">Ni stroškov</option>
                             <option value="10 - 50 €">10 - 50 €</option>
                             <option value="50 - 100 €">50 - 100 €</option>
                             <option value="100 - 500 €">100 - 500 €</option>
@@ -56,21 +57,21 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Podpora medicine?</label>
-                        <select name="approval" class="form-control" width="100px">
+                        <label>Podpora / odobritev medicine?</label>
+                        <select name="odobritev" class="form-control" width="100px">
                             <option value="Da">Da</option>
                             <option value="Ne">Ne</option>
-                            <option value="Nevem">Nevem</option>
+                            <option value="Ne vem">Ne vem</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Kako se vam zdi, da je pomagalo?</label>
-                        <select name="work" class="form-control" width="100px">
-                            <option value="Sploh ni pomagalo">Sploh ni pomagalo</option>
-                            <option value="Ni pomagalo">Ni pomagalo</option>
-                            <option value="Niti niti">Niti niti</option>
-                            <option value="Je pomagalo">Je pomagalo</option>
-                            <option value="Zelo je pomagalo">Zelo je pomagalo</option>
+                        <label>Kako se vam zdi, da je izkusnja vplivala na pocutje bolnika?</label>
+                        <select name="vpliv" class="form-control" width="100px">
+                            <option value="Zelo negativno">Zelo negativno</option>
+                            <option value="Negativno">Negativno</option>
+                            <option value="Niti negativno niti pozitivno">Niti negativno niti pozitivno</option>
+                            <option value="Pozitivno">Pozitivno</option>
+                            <option value="Zelo pozitivno">Zelo pozitivno</option>
                         </select>
                     </div>
                     

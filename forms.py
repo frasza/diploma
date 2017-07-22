@@ -4,52 +4,52 @@ from wtforms import StringField, DateField, IntegerField, SelectField, PasswordF
 
 
 class NewEntry(Form):
-    entry_id = IntegerField()
-    title = StringField("Naslov", [validators.Required("Vnesite naslov izkušnje")])
-    description = StringField("Opis", [validators.Required("Vnesite opis izkušnje")])
-    changes = StringField("Spremembe", [validators.Required("Vnesite opažene spremembe")])
-    category = SelectField("Kategorija", [validators.Required("Izberite kategorijo")],
+    vnos_id = IntegerField()
+    naslov = StringField("Naslov", [validators.Required("Vnesite naslov izkušnje")])
+    opis = StringField("Opis", [validators.Required("Vnesite opis izkušnje")])
+    spremembe = StringField("Spremembe", [validators.Required("Vnesite opažene spremembe")])
+    kategorija = SelectField("Kategorija", [validators.Required("Izberite kategorijo")],
                            choices=[
                                ("Prehrana", "Prehrana"), ("Fizična aktivnost", "Fizična aktivnost"),
                                ("Uporaba pripomočkov", "Uporaba pripomočkov"), ("Terapija", "Terapija"),
                                ("Zdravila", "Zdravila"),
                            ]
                            )
-    costs = SelectField("Stroški", [validators.Required("Izberite mesečne stroške")],
+    stroski = SelectField("Stroški", [validators.Required("Izberite mesečne stroške")],
                         choices=[
-                            ("10-50 €", "10-50 €"), ("50-100 €", "50-100 €"), ("100-500 €", "100-500 €"),
+                            ("Ni stroškov", "Ni stroškov"), ("10-50 €", "10-50 €"), ("50-100 €", "50-100 €"), ("100-500 €", "100-500 €"),
                             ("500-1000 €", "500-1000 €"), ("Več kot 1000 € mesečno", "Več kot 1000 € mesečno"),
                         ]
                         )
-    approval = SelectField("Podpora", [validators.Required("Vnesite ali je vaša izkušnja podprta s strani medicine")],
+    odobritev = SelectField("Odobritev", [validators.Required("Vnesite ali je vaša izkušnja podprta / odobrena s strani medicine")],
                            choices=[
-                               ("Da", "Da"), ("Ne", "Ne"), ("Nevem", "Nevem"),
+                               ("Da", "Da"), ("Ne", "Ne"), ("Ne vem", "Ne vem"),
                            ])
-    work = SelectField("Delovanje", [validators.Required("Vnesite kako se vam zdi da deluje")],
+    vpliv = SelectField("Vpliv", [validators.Required("Kako se vam zdi, da je izkusnja vplivala na pocutje bolnika?")],
                        choices=[
-                           ("Sploh ni pomagalo", "Sploh ni pomagalo"), ("Ni pomagalo", "Ni pomagalo"),
-                           ("Niti niti", "Niti nit"), ("Je pomagalo", "Je pomagalo"),
-                           ("Zelo je pomagalo", "Zelo je pomagalo"),
+                           ("Zelo negativno", "Zelo negativno"), ("Negativno", "Negativno"),
+                           ("Niti negativno niti pozitivno", "Niti negativno niti pozitivno"), ("Pozitivno", "Pozitivno"),
+                           ("Zelo pozitivno", "Zelo pozitivno"),
                        ])
-    user_id = IntegerField()
+    uporabnik_id = IntegerField()
 
 
 class RegisterForm(Form):
-    name = StringField('Username', [validators.Length(min=4, max=25)])
-    email = StringField('Email Address', [validators.Length(min=6, max=35)])
-    password = PasswordField('New Password', [
+    uporabniskoime = StringField('Uporabnisko ime', [validators.Length(min=4, max=25)])
+    email = StringField('Email naslov', [validators.Length(min=6, max=35)])
+    geslo = PasswordField('Geslo', [
         validators.Required(),
-        validators.EqualTo('confirm', message='Passwords must match')
+        validators.EqualTo('confirm', message='Gesla se morata ujemati')
     ])
-    confirm = PasswordField('Repeat Password')
+    confirm = PasswordField('Ponovno geslo')
 
 
 class LoginForm(Form):
-    name = StringField(
-        'Username',
+    uporabniskoime = StringField(
+        'Uporabnisko Ime',
         [validators.Required()]
     )
-    password = PasswordField(
-        'Password',
+    geslo = PasswordField(
+        'Geslo',
         [validators.Required()]
     )

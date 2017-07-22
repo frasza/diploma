@@ -6,9 +6,9 @@ with sqlite3.connect(DATABASE_PATH) as connection:
 
     c = connection.cursor()
     
-    c.execute("""CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL)""")
+    c.execute("""CREATE TABLE uporabniki(id INTEGER PRIMARY KEY AUTOINCREMENT,
+        uporabniskoime TEXT NOT NULL UNIQUE, email TEXT NOT NULL UNIQUE, geslo TEXT NOT NULL)""")
 
-    c.execute("""CREATE TABLE entries(entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL, description TEXT NOT NULL, changes TEXT NOT NULL, category TEXT NOT NULL,
-        costs TEXT NOT NULL, approval TEXT NOT NULL, work TEXT NOT NULL, user_id INTEGER NOT NULL REFERENCES users(id))""")
+    c.execute("""CREATE TABLE vnosi(vnos_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        naslov TEXT NOT NULL, opis TEXT NOT NULL, spremembe TEXT NOT NULL, kategorija TEXT NOT NULL,
+        stroski TEXT NOT NULL, odobritev TEXT NOT NULL, vpliv TEXT NOT NULL, uporabnik_id INTEGER NOT NULL REFERENCES uporabniki(id))""")

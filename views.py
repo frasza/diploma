@@ -41,10 +41,10 @@ def register():
 
     if request.method == "POST" and form.validate():
         db = connect_db()
-        db.execute("INSERT INTO users(name, email, password) VALUES (?,?,?)", ([
-            form.name.data,
+        db.execute("INSERT INTO uporabniki(uporabniskoime, email, geslo) VALUES (?,?,?)", ([
+            form.uporabniskoime.data,
             form.email.data,
-            form.password.data
+            form.geslo.data
         ]))
         db.commit()
         db.close()
@@ -77,7 +77,7 @@ def login():
     if request.method != "POST" or not form.validate():
         return render_template('login.html')
     db = connect_db()
-    cur = db.execute('SELECT id, name FROM users WHERE name = :name AND password = :password', request.form)
+    cur = db.execute('SELECT id, uporabniskoime FROM uporabniki WHERE uporabniskoime = :uporabniskoime AND geslo = :geslo', request.form)
     users = cur.fetchall()
     if len(users) == 1:
         session['logged_in'] = True
@@ -93,16 +93,16 @@ def index():
     db = connect_db()
 
     c = db.execute(
-        "SELECT entries.title, entries.description, entries.changes, entries.category, entries.costs, entries.approval, entries.work, entries.entry_id, users.name FROM entries JOIN users ON entries.user_id = users.id")
-    entries = [dict(title=row[0], description=row[1], changes=row[2], category=row[3], costs=row[4], approval=row[5],
-                    work=row[6], entry_id=row[7], user_id=row[8]) for row in c.fetchall()]
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id")
+    vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
+                    vpliv=row[6], vnos_id=row[7], uporabnik_id=row[8]) for row in c.fetchall()]
 
     db.close()
 
     return render_template(
         "index.html",
         form=NewEntry(request.form),
-        entries=entries
+        vnosi=vnosi
     )
 
 
@@ -117,73 +117,50 @@ def entry():
 @login_required
 def new_entry():
     db = connect_db()
-    title = request.form["title"]
-    description = request.form["description"]
-    changes = request.form["changes"]
-    category = request.form["category"]
-    costs = request.form["costs"]
-    approval = request.form["approval"]
-    work = request.form["work"]
-    user_id = session["user_id"]
-    if not title or not description or not changes or not category or not costs or not approval or not work:
-        flash("All fields are required. Please try again.")
+    naslov = request.form["naslov"]
+    opis = request.form["opis"]
+    spremembe = request.form["spremembe"]
+    kategorija = request.form["kategorija"]
+    stroski = request.form["stroski"]
+    odobritev = request.form["odobritev"]
+    vpliv = request.form["vpliv"]
+    uporabnik_id = session["user_id"]
+    if not naslov or not opis or not spremembe or not kategorija or not stroski or not odobritev or not vpliv:
+        flash("Vsa polja so obvezna.")
         return redirect(url_for("entry"))
     else:
         db.execute(
-            "INSERT INTO entries (title, description, changes, category, costs, approval, work, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO vnosi (naslov, opis, spremembe, kategorija, stroski, odobritev, vpliv, uporabnik_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [
-                title,
-                description,
-                changes,
-                category,
-                costs,
-                approval,
-                work,
-                user_id
+                naslov,
+                opis,
+                spremembe,
+                kategorija,
+                stroski,
+                odobritev,
+                vpliv,
+                uporabnik_id
             ]
         )
         db.commit()
         db.close()
-        flash("New entry was successfully posted.")
+        flash("Nov vnos je bil uspešno zapisan.")
         return redirect(url_for("index"))
 
 
-@app.route("/izkusnja/<int:entry_id>/")
+@app.route("/izkusnja/<int:vnos_id>/")
 # @login_required
-def izkusnja(entry_id):
+def izkusnja(vnos_id):
     db = connect_db()
 
     c = db.execute(
-        "SELECT entries.title, entries.description, entries.changes, entries.category, entries.costs, entries.approval, entries.work, entries.entry_id, users.name FROM entries JOIN users ON entries.user_id = users.id WHERE entry_id=?",
-        [entry_id])
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE vnos_id=?",
+        [vnos_id])
 
-    entries = [dict(title=row[0], description=row[1], changes=row[2], category=row[3], costs=row[4], approval=row[5],
-                    work=row[6], entry_id=row[7], user_id=row[8]) for row in c.fetchall()]
-    """
-    c = db.execute("SELECT COUNT(priority) AS sestevek FROM tasks GROUP BY priority")
-    sestevek = c.fetchall()
+    vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
+                    vpliv=row[6], vnos_id=row[7], uporabnik_id=row[8]) for row in c.fetchall()]
 
-    c = db.execute("SELECT priority AS stevilke FROM tasks GROUP BY priority")
-    stevilke = c.fetchall()
-
-    c = db.execute("SELECT count(*) * 100 / (SELECT count(*) from tasks) FROM tasks GROUP BY priority")
-    odst = c.fetchall()
-
-    db.close()
-
-    prio = [x[0] for x in sestevek]
-    stev = [x[0] for x in stevilke]
-    odstotek = [x[0] for x in odst]
-
-    legend = "Priority Frequency"
-    legend_pie = "Priority %"
-    labels = stev
-    values = prio
-
-    values=values, labels=labels, legend=legend, legend_pie=legend_pie, odstotek=odstotek
-    """
-
-    return render_template("izkusnja.html", entries=entries)
+    return render_template("izkusnja.html", vnosi=vnosi)
 
 
 @app.route("/uspesnost/")
@@ -192,38 +169,38 @@ def success():
     return render_template('kategorije.html')
 
 
-@app.route("/uspesnost_kategorije/<category>/")
+@app.route("/uspesnost_kategorije/<kategorija>/")
 # @login_required
-def category_success(category):
+def category_success(kategorija):
     db = connect_db()
 
     c = db.execute(
-        "SELECT entries.title, entries.description, entries.changes, entries.category, entries.costs, entries.approval, entries.work, entries.entry_id, users.name FROM entries JOIN users ON entries.user_id = users.id WHERE category=?",
-        [category])
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE kategorija=?",
+        [kategorija])
 
-    entries = [dict(title=row[0], description=row[1], changes=row[2], category=row[3], costs=row[4], approval=row[5],
-                    work=row[6], entry_id=row[7], user_id=row[8]) for row in c.fetchall()]
+    vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
+                    vpliv=row[6], vnos_id=row[7], uporabnik_id=row[8]) for row in c.fetchall()]
 
-    c = db.execute("SELECT COUNT(work) FROM entries WHERE category = ? GROUP BY work", [category])
+    c = db.execute("SELECT COUNT(vpliv) FROM vnosi WHERE kategorija = ? GROUP BY vpliv", [kategorija])
     priorityLabels = c.fetchall()
 
-    c = db.execute("SELECT approval FROM entries WHERE category = ? GROUP BY approval", [category])
+    c = db.execute("SELECT odobritev FROM vnosi WHERE kategorija = ? GROUP BY odobritev", [kategorija])
     approvalLabels = c.fetchall()
 
-    c = db.execute("SELECT costs FROM entries WHERE category = ? GROUP BY costs", [category])
+    c = db.execute("SELECT stroski FROM vnosi WHERE kategorija = ? GROUP BY stroski", [kategorija])
     costsLabels = c.fetchall()
 
-    c = db.execute("SELECT work FROM entries WHERE category = ? GROUP BY work", [category])
+    c = db.execute("SELECT vpliv FROM vnosi WHERE kategorija = ? GROUP BY vpliv", [kategorija])
     stevilke = c.fetchall()
 
     c = db.execute(
-        "SELECT 100 * count(*) / (SELECT count(*) FROM entries WHERE category = ?) FROM entries WHERE category = ? GROUP BY approval",
-        [category, category])
+        "SELECT 100 * count(*) / (SELECT count(*) FROM vnosi WHERE kategorija = ?) FROM vnosi WHERE kategorija = ? GROUP BY odobritev",
+        [kategorija, kategorija])
     approvalValues = c.fetchall()
 
     c = db.execute(
-        "SELECT 100 * count(*) / (SELECT count(*) FROM entries WHERE category = ?) FROM entries WHERE category = ? GROUP BY costs",
-        [category, category])
+        "SELECT 100 * count(*) / (SELECT count(*) FROM vnosi WHERE kategorija = ?) FROM vnosi WHERE kategorija = ? GROUP BY stroski",
+        [kategorija, kategorija])
     costsValues = c.fetchall()
 
     db.close()
@@ -238,7 +215,7 @@ def category_success(category):
     legend = "Frekvenca"
     legend_pie = "Priority %"
 
-    return render_template("uspesnost_kategorije.html", approvalLabels=approvalLabels, costsLabels=costsLabels, entries=entries,
+    return render_template("uspesnost_kategorije.html", approvalLabels=approvalLabels, costsLabels=costsLabels, vnosi=vnosi,
                            priorityLabels=priorityLabels, labels=labels, legend=legend, legend_pie=legend_pie,
                            approvalValues=approvalValues, costsValues=costsValues)
 

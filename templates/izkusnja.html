@@ -40,21 +40,21 @@
                                 <th width="100px"><strong>Spremembe</strong></th>
                                 <th width="150px"><strong>Kategorija</strong></th>
                                 <th width="100px"><strong>Stroški</strong></th>
-                                <th width="100px"><strong>Podpora</strong></th>
-                                <th width="150px"><strong>Pomagalo</strong></th>
+                                <th width="100px"><strong>Podpora / odobritev medicine</strong></th>
+                                <th width="150px"><strong>Vpliv na počutje</strong></th>
                                 <th width="100px"><strong>Avtor</strong></th>
                             </tr>
                         </thead>
-                        {% for entry in entries %}
+                        {% for vnos in vnosi %}
                             <tr>
-                                <td width="300px" class="mobile-title">{{ entry.title }}</td>
-                                <td width="300px">{{ entry.description }}</td>
-                                <td width="100px">{{ entry.changes }}</td>
-                                <td width="150px">{{ entry.category }}</td>
-                                <td width="100px">{{ entry.costs }}</td>
-                                <td width="100px">{{ entry.approval }}</td>
-                                <td width="150px">{{ entry.work }}</td>
-                                <td width="100px">{{ entry.user_id }}</td>
+                                <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
+                                <td width="300px">{{ vnos.opis }}</td>
+                                <td width="100px">{{ vnos.spremembe }}</td>
+                                <td width="150px">{{ vnos.kategorija }}</td>
+                                <td width="100px">{{ vnos.stroski }}</td>
+                                <td width="100px">{{ vnos.odobritev }}</td>
+                                <td width="150px">{{ vnos.vpliv }}</td>
+                                <td width="100px">{{ vnos.uporabnik_id }}</td>
                             </tr>
                         {% endfor %}
                     </table>
