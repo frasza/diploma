@@ -18,7 +18,7 @@ function myFunction() {
 }
 
 $( "#toggleVnosi" ).click(function() {
-    $( "#item" ).toggle();
+    $( "#tabelaVnosov" ).toggle();
     $(this).text(function(i, text){
         return text === "Prikaži vse vnose kategorije" ? "Skij vse vnose kategorije" : "Prikaži vse vnose kategorije";
     })
