@@ -11,4 +11,4 @@ with sqlite3.connect(DATABASE_PATH) as connection:
 
     c.execute("""CREATE TABLE vnosi(vnos_id INTEGER PRIMARY KEY AUTOINCREMENT,
         naslov TEXT NOT NULL, opis TEXT NOT NULL, spremembe TEXT NOT NULL, kategorija TEXT NOT NULL,
-        stroski TEXT NOT NULL, odobritev TEXT NOT NULL, vpliv TEXT NOT NULL, uporabnik_id INTEGER NOT NULL REFERENCES uporabniki(id))""")
+        stroski TEXT NOT NULL, odobritev TEXT NOT NULL, vpliv TEXT NOT NULL, spol TEXT NOL NULL, starost INTEGER NOT NULL, uporabnik_id INTEGER NOT NULL REFERENCES uporabniki(id))""")

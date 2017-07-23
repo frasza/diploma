@@ -32,9 +32,9 @@
 
 	<div class="container-fluid">
                 <div class="col-md-12">
-					{% for vnos in vnosi %}
-						<h3 class="text-center">{{vnos.kategorija}}</h3>
-					{% endfor %}
+				{% if vnosi %}
+				<h3 class="text-center">{{vnosi[0].kategorija}}</h3>
+				{% endif %}
 				<a class="btn btn-default pull-right" id="toggleVnosi" href="#">Prikaži vse vnose kategorije</a>
 				<div id="tabelaVnosov" style="display:none">
 				<table class="table table-hover large-only">
@@ -44,8 +44,9 @@
                                 <th width="200px"><strong>Kategorija</strong></th>
                                 <th width="150px"><strong>Stroški</strong></th>
                                 <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
-                                <th width="200px"><strong>Vpliv na počutje</strong></th>
-                                <th width="150px"><strong>Avtor</strong></th>
+								<th width="200px"><strong>Vpliv na počutje</strong></th>
+								<th width="150px"><strong>Avtor</strong></th>
+								<th><strong></strong></th>
                             </tr>
                         </thead>
                         {% for vnos in vnosi %}
@@ -54,8 +55,19 @@
                                 <td width="200px">{{ vnos.kategorija }}</td>
                                 <td width="150px">{{ vnos.stroski }}</td>
                                 <td width="300px">{{ vnos.odobritev }}</td>
-                                <td width="200px">{{ vnos.vpliv }}</td>
-                                <td width="150px">{{ vnos.uporabnik_id }}</td>
+								<td width="200px">{{ vnos.vpliv }}</td>
+								<td width="150px">{{ vnos.uporabnik_id }}</td>
+								<td>
+                                    <a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
+                                </td>
+                                {% if session["username"] == vnos.uporabnik_id %}
+                                <td>
+                                   <a class="btn btn-danger btn-sm" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">X</a>
+                                </td>
+                                {% else %}
+                                <td>
+                                </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
 					</table>
@@ -66,7 +78,7 @@
             <div class="container-fluid">
             <div class="row">
 			  <div class="col-lg-6 col-md-12">
-			  	<h3 class="bar-chart-title">Frekvenca</h3>
+			  	<h3 class="bar-chart-title">Vpliv na počutje</h3>
 			    <canvas id="chart"></canvas>
 			  </div>
 			  <div class="col-lg-6 col-md-12">
@@ -74,8 +86,8 @@
 			    <canvas id="pie"></canvas>
 			  </div>
 			  <div class="col-lg-6 col-md-12">
-			  	<h3 class="bar-chart-title">Frekvenca</h3>
-			    <canvas id="achart"></canvas>
+			  	<h3 class="bar-chart-title">Povprecna starost na spol</h3>
+			    <canvas id="avgchart"></canvas>
 			  </div>
 			  <div class="col-lg-6 col-md-12">
 			  	<h3 class="pie-chart-title">Delež stroškov v %</h3>
@@ -114,7 +126,7 @@
 		             "{{item}}",
 		            {% endfor %}],
 		  datasets : [{
-		      backgroundColor: ["#1f77b4", "#FF7F0E", "#2CA02C", "#D62728", "#9467BD"],
+		      backgroundColor: ["#1f77b4", "#FF7F0E", "#2CA02C"],
 		      data : [{% for item in approvalValues %}
 		                " {{item}}",
 		              {% endfor %}]
@@ -133,6 +145,27 @@
 		              {% endfor %}]
           }]
 
+		}
+
+		var avgChartData = {
+			datasets: [{
+				label: '{{ legend }}',
+				backgroundColor: ["#2CA02C", "#D62728",],
+				data: [{% for item in countSex %}
+						" {{item}}",
+						{% endfor %}]
+				}, {
+				label: '{{ avg }}',
+				fill: false,
+				data: [{% for item in avgAge %}
+						" {{item}}",
+						{% endfor %}],
+				// Changes this dataset to become a line
+				type: 'line'
+				}],
+			labels: [{% for item in sexLabels %}
+					"{{item}}",
+					{% endfor %}]
 		}
 
 		var ChartOptions = {
@@ -160,7 +193,7 @@
 		// get chart canvas
 		var ctx = document.getElementById("chart").getContext("2d");
 		var cta = document.getElementById("pie").getContext("2d");
-		var ctb = document.getElementById("achart").getContext("2d");
+		var ctb = document.getElementById("avgchart").getContext("2d");
 		var ctc = document.getElementById("costsPie").getContext("2d");
 
 		 
@@ -176,9 +209,9 @@
 		    data: pieData,
 		    options: PieOptions
 		});
-		var amyChart = new Chart(ctb, {
+		var avgChart = new Chart(ctb, {
 		  type: 'bar',
-		  data: chartData,
+		  data: avgChartData,
 		  options: ChartOptions
 		});
 

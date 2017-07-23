@@ -93,9 +93,9 @@ def index():
     db = connect_db()
 
     c = db.execute(
-        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id")
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id")
     vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
-                    vpliv=row[6], vnos_id=row[7], uporabnik_id=row[8]) for row in c.fetchall()]
+                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10]) for row in c.fetchall()]
     db.close()
 
     return render_template(
@@ -123,13 +123,15 @@ def new_entry():
     stroski = request.form["stroski"]
     odobritev = request.form["odobritev"]
     vpliv = request.form["vpliv"]
+    spol = request.form["spol"]
+    starost = request.form["starost"]
     uporabnik_id = session["user_id"]
-    if not naslov or not opis or not spremembe or not kategorija or not stroski or not odobritev or not vpliv:
+    if not naslov or not opis or not spremembe or not kategorija or not stroski or not odobritev or not vpliv or not spol or not starost:
         flash("Vsa polja so obvezna.")
         return redirect(url_for("entry"))
     else:
         db.execute(
-            "INSERT INTO vnosi (naslov, opis, spremembe, kategorija, stroski, odobritev, vpliv, uporabnik_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO vnosi (naslov, opis, spremembe, kategorija, stroski, odobritev, vpliv, spol, starost, uporabnik_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 naslov,
                 opis,
@@ -138,6 +140,8 @@ def new_entry():
                 stroski,
                 odobritev,
                 vpliv,
+                spol,
+                starost,
                 uporabnik_id
             ]
         )
@@ -153,11 +157,11 @@ def izkusnja(vnos_id):
     db = connect_db()
 
     c = db.execute(
-        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE vnos_id=?",
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE vnos_id=?",
         [vnos_id])
 
     vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
-                    vpliv=row[6], vnos_id=row[7], uporabnik_id=row[8]) for row in c.fetchall()]
+                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10]) for row in c.fetchall()]
 
     return render_template("izkusnja.html", vnosi=vnosi)
 
@@ -174,11 +178,11 @@ def category_success(kategorija):
     db = connect_db()
 
     c = db.execute(
-        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE kategorija=?",
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE kategorija=?",
         [kategorija])
 
     vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
-                    vpliv=row[6], vnos_id=row[7], uporabnik_id=row[8]) for row in c.fetchall()]
+                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10]) for row in c.fetchall()]
 
     c = db.execute("SELECT COUNT(vpliv) FROM vnosi WHERE kategorija = ? GROUP BY vpliv", [kategorija])
     priorityLabels = c.fetchall()
@@ -202,6 +206,18 @@ def category_success(kategorija):
         [kategorija, kategorija])
     costsValues = c.fetchall()
 
+    c = db.execute("SELECT ROUND(AVG(starost)) FROM vnosi WHERE kategorija = ? GROUP BY spol", [kategorija])
+    avgAge = c.fetchall()
+
+    c = db.execute("SELECT starost FROM vnosi WHERE kategorija = ? GROUP BY starost", [kategorija])
+    ageLabels = c.fetchall()
+
+    c = db.execute("SELECT count(spol) from vnosi WHERE kategorija = ? group by spol", [kategorija])
+    countSex = c.fetchall()
+
+    c = db.execute("SELECT spol FROM vnosi WHERE kategorija = ? GROUP BY spol", [kategorija])
+    sexLabels = c.fetchall()
+
     db.close()
 
     priorityLabels = [x[0] for x in priorityLabels]
@@ -210,13 +226,19 @@ def category_success(kategorija):
     labels = [x[0] for x in stevilke]
     approvalValues = [x[0] for x in approvalValues]
     costsValues = [x[0] for x in costsValues]
+    avgAge = [x[0] for x in avgAge]
+    ageLabels = [x[0] for x in ageLabels]
+    countSex = [x[0] for x in countSex]
+    sexLabels = [x[0] for x in sexLabels]
 
     legend = "Frekvenca"
+    avg = "Povprečje"
     legend_pie = "Priority %"
 
     return render_template("uspesnost_kategorije.html", approvalLabels=approvalLabels, costsLabels=costsLabels, vnosi=vnosi,
                            priorityLabels=priorityLabels, labels=labels, legend=legend, legend_pie=legend_pie,
-                           approvalValues=approvalValues, costsValues=costsValues)
+                           approvalValues=approvalValues, costsValues=costsValues, avgAge=avgAge, countSex=countSex,
+                           ageLabels=ageLabels, sexLabels=sexLabels, avg=avg)
 
 
 @app.route("/o_als/")

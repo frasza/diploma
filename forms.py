@@ -31,6 +31,11 @@ class NewEntry(Form):
                            ("Niti negativno niti pozitivno", "Niti negativno niti pozitivno"), ("Pozitivno", "Pozitivno"),
                            ("Zelo pozitivno", "Zelo pozitivno"),
                        ])
+    spol = SelectField("Spol", [validators.Required("Spol bolnika")],
+                           choices=[
+                               ("Moški", "Moški"), ("Ženski", "Ženski"),
+                           ])
+    starost = IntegerField()
     uporabnik_id = IntegerField()
 
 
