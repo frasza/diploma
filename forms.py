@@ -12,7 +12,7 @@ class NewEntry(Form):
                            choices=[
                                ("Prehrana", "Prehrana"), ("Fizična aktivnost", "Fizična aktivnost"),
                                ("Uporaba pripomočkov", "Uporaba pripomočkov"), ("Terapija", "Terapija"),
-                               ("Zdravila", "Zdravila"),
+                               ("Zdravila", "Zdravila"),("Drugo", "Drugo"),
                            ]
                            )
     stroski = SelectField("Stroški", [validators.Required("Izberite mesečne stroške")],

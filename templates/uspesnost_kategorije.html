@@ -82,15 +82,15 @@
 			    <canvas id="chart"></canvas>
 			  </div>
 			  <div class="col-lg-6 col-md-12">
-			  	<h3 class="pie-chart-title">Podpora medicine v %</h3>
+			  	<h3 class="pie-chart-title">Delež podpore medicine v odstotkih</h3>
 			    <canvas id="pie"></canvas>
 			  </div>
 			  <div class="col-lg-6 col-md-12">
-			  	<h3 class="bar-chart-title">Povprecna starost na spol</h3>
+			  	<h3 class="bar-chart-title">Spol in povprečna starost bolnikov</h3>
 			    <canvas id="avgchart"></canvas>
 			  </div>
 			  <div class="col-lg-6 col-md-12">
-			  	<h3 class="pie-chart-title">Delež stroškov v %</h3>
+			  	<h3 class="pie-chart-title">Delež stroškov v odstotkih</h3>
 			    <canvas id="costsPie"></canvas>
 			  </div>
 			</div>
@@ -154,14 +154,18 @@
 				data: [{% for item in countSex %}
 						" {{item}}",
 						{% endfor %}]
-				}, {
+				},
+				
+				{
 				label: '{{ avg }}',
-				fill: false,
 				data: [{% for item in avgAge %}
 						" {{item}}",
 						{% endfor %}],
-				// Changes this dataset to become a line
-				type: 'line'
+				
+				type: 'bubble',
+				backgroundColor: ['#FF6384', '#FF6384'],
+				borderColor: ['#FF6384', '#FF6384'],
+				borderWidth: 2
 				}],
 			labels: [{% for item in sexLabels %}
 					"{{item}}",
@@ -173,13 +177,35 @@
 		            yAxes: [{
 		                ticks: {
 		                    beginAtZero: true
-		                }
+		                },
+						scaleLabel: {
+							display: true,
+							labelString: 'Število vnosov'
+						}
 		            }]
 		        },
 		        legend: {
 		            display: false
 		        },
 			    responsive : true
+		}
+
+		var SexChartOptions = {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero: true
+				},
+				scaleLabel: {
+					display: true,
+					labelString: 'Število vnosov in povprečje glede na spol'
+				}
+			}]
+		},
+		legend: {
+			display: false
+		},
+		responsive : true
 		}
 
 		var PieOptions = {
@@ -212,7 +238,7 @@
 		var avgChart = new Chart(ctb, {
 		  type: 'bar',
 		  data: avgChartData,
-		  options: ChartOptions
+		  options: SexChartOptions
 		});
 
 		var costsPieChart = new Chart(ctc,{

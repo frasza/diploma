@@ -7,15 +7,11 @@ from flask_sslify import SSLify
 
 from forms import NewEntry, RegisterForm, LoginForm
 
-from flask_mail import Mail, Message
-
 # Config
 app = Flask(__name__)
 app.config.from_object("_config")
 
 sslify = SSLify(app)
-
-mail = Mail(app)
 
 
 # Helper functions
@@ -48,14 +44,6 @@ def register():
         ]))
         db.commit()
         db.close()
-
-        # Thank you mail for registration
-        msg = Message(
-            "Dobrodošli v skupnosti!",
-            recipients=[form.email.data]
-        )
-        msg.html = render_template("mail.html")
-        mail.send(msg)
 
         return redirect(url_for("index"))
 
@@ -100,7 +88,6 @@ def index():
 
     return render_template(
         "index.html",
-        form=NewEntry(request.form),
         vnosi=vnosi
     )
 
@@ -193,7 +180,7 @@ def category_success(kategorija):
     c = db.execute("SELECT stroski FROM vnosi WHERE kategorija = ? GROUP BY stroski", [kategorija])
     costsLabels = c.fetchall()
 
-    c = db.execute("SELECT vpliv FROM vnosi WHERE kategorija = ? GROUP BY vpliv", [kategorija])
+    c = db.execute("SELECT vpliv FROM vnosi WHERE kategorija = ? group by vpliv ORDER BY CASE WHEN vpliv = 'Zelo negativno' THEN 0 WHEN vpliv = 'Negativno' THEN 1 WHEN vpliv = 'Niti negativno niti pozitivno' THEN 2 WHEN vpliv = 'Pozitivno' THEN 3 WHEN vpliv = 'Zelo pozitivno' THEN 4 END;", [kategorija])
     stevilke = c.fetchall()
 
     c = db.execute(
@@ -231,7 +218,7 @@ def category_success(kategorija):
     countSex = [x[0] for x in countSex]
     sexLabels = [x[0] for x in sexLabels]
 
-    legend = "Frekvenca"
+    legend = "Število vnosov"
     avg = "Povprečje"
     legend_pie = "Priority %"
 
