@@ -1,40 +1,96 @@
-{% extends "template.html" %}
-{% block title %} Pomembne številke | {{super()}}{% endblock %}
-{% block body %}
-    <body id="mainBG">
-        {% block content %}
-       <div class="topnav" id="myTopnav">
-       <div class="logo">
+{% extends "template.html" %} {% block title %} Pomembne številke | {{super()}}{% endblock %} {% block body %}
+
+<body id="mainBG">
+    {% block content %}
+    <div class="topnav" id="myTopnav">
+        <div class="logo">
             <a href="/">ALSkupnost</a>
         </div>
-          <a href="/">Vnosi</a>
-          <a href="/uspesnost/">Uspešnost</a>
-          <a href="/o_als">O ALS</a>
-          <a href="/stevilke">Pomembne številke</a>
-          {% if session['logged_in'] %}
-          <a href="/odjava" id="login">Odjava</a>
-          <a href="#" id="login" class="btn disabled">{{session["username"]}}, pozdravljeni!</a>
-           {% else %}
-           <a href="/prijava" id="login">Prijava / Registracija</a>
-           {% endif %}
-          <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
-        </div>
+        <a href="/">Vnosi</a>
+        <a href="/uspesnost/">Uspešnost</a>
+        <a href="/o_als">O ALS</a>
+        <a href="/stevilke">Pomembne številke</a> {% if session['logged_in'] %}
+        <a href="/odjava" id="login">Odjava</a>
+        <a href="#" id="login" class="btn disabled">{{session["username"]}}, pozdravljeni!</a> {% else %}
+        <a href="/prijava" id="login">Prijava / Registracija</a> {% endif %}
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    </div>
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12" style="text-align: center;">
-                        <h1>Pomembne številke</h1>
-                    </div>
+    <div class="panel panel-default" style="margin-left: 15px; margin-right: 15px">
+        <div class="panel-heading">
+            <h3 class="panel-title">Univerzitetni klinični center Ljubljana</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="http://i.imgur.com/zJhl7iK.png" class="img-responsive">
                 </div>
-                <div class="row" style="text-align: center; margin-top: 50px;">
-                    <div class="col-xs-6">
-                        <img class="img-responsive" src="http://i.imgur.com/zJhl7iK.png" alt="UKC" style="width: 300px; margin: 0 auto;">
-                    </div>
-                    <div class="col-xs-6">
-                        <img class="img-responsive" src="http://www.pgd-cerklje.si/img/ostalo/112_cerklje.png" alt="112" style="width: 300px; margin: 0 auto;">
-                    </div>
+                <div class="col-md-10">
+                    <h4>01 / 522 50 50</h4>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-left: 15px; margin-right: 15px">
+        <div class="panel-heading">
+            <h3 class="panel-title">Nujna pomoč</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-2">
+                    <img src="http://www.pgd-cerklje.si/img/ostalo/112_cerklje.png" class="img-responsive">
+                </div>
+                <div class="col-xs-10">
+                    <h4>112</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-left: 15px; margin-right: 15px">
+        <div class="panel-heading">
+            <h3 class="panel-title">Društvo distrofikov Slovenije</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-2">
+                    <img src="http://www.prostovoljstvo.org/resources/files/organization-logos/logodds.gif" class="img-responsive">
+                </div>
+                <div class="col-xs-10">
+                    <h4>01 / 472 05 00</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-left: 15px; margin-right: 15px">
+        <div class="panel-heading">
+            <h3 class="panel-title">Zavod za zdravstveno zavarovanje</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-2">
+                    <img src="http://mi.audax.si/uploads/gallery_pictures_big/Logo_zzzs.png" class="img-responsive">
+                </div>
+                <div class="col-xs-10">
+                    <h4>01 / 307 72 00</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-left: 15px; margin-right: 15px">
+        <div class="panel-heading">
+            <h3 class="panel-title">Skupnost centrov za socialno delo</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-2">
+                    <img src="http://firstaction.eu/wp-content/uploads/2015/02/First-action-help-against-violence-skupnost-centrov-za-socilano-delo-slo.jpg" class="img-responsive">
+                </div>
+                <div class="col-xs-10">
+                    <h4>01 / 436 68 58</h4>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endblock%}
 </body>
 {% endblock%}
