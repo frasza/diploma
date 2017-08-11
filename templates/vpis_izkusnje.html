@@ -21,27 +21,27 @@
         </div>
 
             <div class="container">
+                {% for message in get_flashed_messages() %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
                 <h3>Vpis nove izkušnje</h3>
                 <p class="pull-right">Polja označena z * so obvezna</p>
                 <form action="{{ url_for('new_entry') }}" method="post">
                     <div class="form-group">
                         <label>Naslov izkušnje *</label>
-                        <input name="naslov" class="form-control" type="text" placeholder="Vnesite kratek naslov naše izkušnje"
-                        required oninvalid="this.setCustomValidity('Obvezno polje!')">
+                        <input name="naslov" class="form-control" type="text" placeholder="Vnesite kratek naslov naše izkušnje">
                     </div>
                     <div class="form-group">
                         <label>Opis izkušnje *</label>
-                        <textarea name="opis" class="form-control" rows="6" placeholder="Vnesite celoten opis vaše izkušnje"
-                        required oninvalid="this.setCustomValidity('Obvezno polje!')"></textarea>
+                        <textarea name="opis" class="form-control" rows="6" placeholder="Vnesite celoten opis vaše izkušnje"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Opažene spremembe *</label>
-                        <textarea name="spremembe" class="form-control" rows="4" placeholder="Vnesite spremembe, ki ste jih opazili med izkušnjo"
-                        required oninvalid="this.setCustomValidity('Obvezno polje!')"></textarea>
+                        <textarea name="spremembe" class="form-control" rows="4" placeholder="Vnesite spremembe, ki ste jih opazili med izkušnjo"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Kategorija *</label>
-                        <select name="kategorija" class="form-control" width="100px" required oninvalid="this.setCustomValidity('Obvezno polje!')">
+                        <select name="kategorija" class="form-control" width="100px">
                             <option value="Prehrana">Prehrana</option>
                             <option value="Fizična aktivnost">Fizična aktivnost</option>
                             <option value="Uporaba pripomočkov">Uporaba pripomočkov</option>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label>Mesečni stroški *</label>
-                        <select name="stroski" class="form-control" width="100px" required oninvalid="this.setCustomValidity('Obvezno polje!')">
+                        <select name="stroski" class="form-control" width="100px">
                             <option value="Ni stroškov">Ni stroškov</option>
                             <option value="10 - 50 €">10 - 50 €</option>
                             <option value="50 - 100 €">50 - 100 €</option>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="form-group">
                         <label>Ali ste za izkušnjo imeli podporo oziroma odobritev medicine? *</label>
-                        <select name="odobritev" class="form-control" width="100px" required oninvalid="this.setCustomValidity('Obvezno polje!')">
+                        <select name="odobritev" class="form-control" width="100px">
                             <option value="Da">Da</option>
                             <option value="Ne">Ne</option>
                             <option value="Ne vem">Ne vem</option>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="form-group">
                         <label>Kako se vam zdi, da je izkušnja vplivala na počutje bolnika? *</label>
-                        <select name="vpliv" class="form-control" width="100px" required oninvalid="this.setCustomValidity('Obvezno polje!')">
+                        <select name="vpliv" class="form-control" width="100px">
                             <option value="Zelo negativno">Zelo negativno</option>
                             <option value="Negativno">Negativno</option>
                             <option value="Niti negativno niti pozitivno">Niti negativno niti pozitivno</option>

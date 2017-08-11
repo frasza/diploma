@@ -1,13 +1,4 @@
-// Enables popover
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover();
-});
-
-// Animated title
-$('h1').addClass('animated rubberBand');
-
-
-/* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+/* Toggle */
 function myFunction() {
     var x = document.getElementById("myTopnav");
     if (x.className === "topnav") {

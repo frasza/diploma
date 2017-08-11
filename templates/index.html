@@ -1,75 +1,72 @@
-{% extends "template.html" %}
-{% block title %} Vnosi | {{super()}}{% endblock %}
-{% block body %}
-    <body id="mainBG">
-        {% block content %}
-       <div class="topnav" id="myTopnav">
-       <div class="logo">
+{% extends "template.html" %} {% block title %} Vnosi | {{super()}}{% endblock %} {% block body %}
+
+<body id="mainBG">
+    {% block content %}
+    <div class="topnav" id="myTopnav">
+        <div class="logo">
             <a href="/">ALSkupnost</a>
         </div>
-          <a href="/">Vnosi</a>
-          <a href="/uspesnost/">Uspešnost</a>
-          <a href="/o_als">O ALS</a>
-          <a href="/stevilke">Pomembne številke</a>
-          {% if session['logged_in'] %}
-          <a href="/odjava" id="login">Odjava</a>
-          <a href="#" id="login" class="btn disabled">{{session["username"]}}, pozdravljeni!</a>
-           {% else %}
-           <a href="/prijava" id="login">Prijava / Registracija</a>
-           {% endif %}
-          <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+        <a href="/">Vnosi</a>
+        <a href="/uspesnost/">Uspešnost</a>
+        <a href="/o_als">O ALS</a>
+        <a href="/stevilke">Pomembne številke</a> {% if session['logged_in'] %}
+        <a href="/odjava" id="login">Odjava</a>
+        <a href="#" id="login" class="btn disabled">{{session["username"]}}, pozdravljeni!</a> {% else %}
+        <a href="/prijava" id="login">Prijava / Registracija</a> {% endif %}
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    </div>
+
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        <div>
+            <h3 id="welcome_box">
+                Imate izkušnje z boleznjo ALS?<br> Želite svoje izkušnje deliti z drugimi?<br> Mislite, da lahko s tem komu
+                pomagate?
+            </h3>
+            <a class="btn btn-default" href="/vpis_izkusnje/" id="add_exp_btn">Dodaj svojo izkušnjo</a>
         </div>
-
-
-            <div class="container">
-                <div>
-                    <h3 id="welcome_box">
-                        Imate izkušnje z boleznjo ALS?<br>
-                        Želite svoje izkušnje deliti z drugimi?<br>
-                        Mislite, da lahko s tem komu pomagate?
-                    </h3>
-                    <a class="btn btn-default" href="/vpis_izkusnje/" id="add_exp_btn">Dodaj svojo izkušnjo</a>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="col-md-12">
-                    <h2>Vnosi</h2>
-                    <table class="table table-hover large-only">
-                        <thead>
-                            <tr>
-                                <th width="300px"><strong>Naslov</strong></th>
-                                <th width="200px"><strong>Kategorija</strong></th>
-                                <th width="150px"><strong>Stroški</strong></th>
-                                <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
-                                <th width="200px"><strong>Vpliv na počutje</strong></th>
-                                <th width="150px"><strong>Avtor</strong></th>
-                                <th><strong></strong></th>
-                            </tr>
-                        </thead>
-                        {% for vnos in vnosi %}
-                            <tr>
-                                <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
-                                <td width="200px">{{ vnos.kategorija }}</td>
-                                <td width="150px">{{ vnos.stroski }}</td>
-                                <td width="300px">{{ vnos.odobritev }}</td>
-                                <td width="200px">{{ vnos.vpliv }}</td>
-                                <td width="150px" id="user">{{ vnos.uporabnik_id }}</td>
-                                <td>
-                                    <a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
-                                </td>
-                                {% if session["username"] == vnos.uporabnik_id %}
-                                <td>
-                                   <a class="btn btn-danger btn-sm" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">X</a>
-                                </td>
-                                {% else %}
-                                <td>
-                                </td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
-                    </table>
-                    </div>
-                </div>
+    </div>
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <h2>Vnosi</h2>
+            <table class="table table-hover large-only">
+                <thead>
+                    <tr>
+                        <th width="300px"><strong>Naslov</strong></th>
+                        <th width="200px"><strong>Kategorija</strong></th>
+                        <th width="150px"><strong>Stroški</strong></th>
+                        <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
+                        <th width="200px"><strong>Vpliv na počutje</strong></th>
+                        <th width="150px"><strong>Avtor</strong></th>
+                        <th><strong></strong></th>
+                    </tr>
+                </thead>
+                {% for vnos in vnosi %}
+                <tr>
+                    <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
+                    <td width="200px">{{ vnos.kategorija }}</td>
+                    <td width="150px">{{ vnos.stroski }}</td>
+                    <td width="300px">{{ vnos.odobritev }}</td>
+                    <td width="200px">{{ vnos.vpliv }}</td>
+                    <td width="150px" id="user">{{ vnos.uporabnik_id }}</td>
+                    <td>
+                        <a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
+                    </td>
+                    {% if session["username"] == vnos.uporabnik_id %}
+                    <td>
+                        <a class="btn btn-danger btn-sm" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">X</a>
+                    </td>
+                    {% else %}
+                    <td>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
     {% endblock%}
 </body>
 {% endblock%}

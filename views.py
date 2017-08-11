@@ -1,3 +1,4 @@
+# Imports
 import sqlite3
 
 from functools import wraps
@@ -30,7 +31,7 @@ def login_required(test):
     return wrap
 
 
-# Register route
+# Routes
 @app.route("/registracija/", methods=["GET", "POST"])
 def register():
     form = RegisterForm(request.form)
@@ -44,13 +45,12 @@ def register():
         ]))
         db.commit()
         db.close()
-
+        flash("Uspešno ste se registrirali! S prijavo vam je sedaj omogočen vnos izkušenj.")
         return redirect(url_for("index"))
 
     return render_template("registracija.html", form=form)
 
 
-# Routes
 @app.route("/odjava/")
 def logout():
     session.pop("logged_in", None)
@@ -71,6 +71,7 @@ def login():
         session['logged_in'] = True
         session["user_id"] = users[0][0]
         session["username"] = users[0][1]
+        flash("Uspešno ste se prijavili!")
         return redirect(url_for('index'))
     else:
         return render_template('login.html')
@@ -114,7 +115,7 @@ def new_entry():
     starost = request.form["starost"]
     uporabnik_id = session["user_id"]
     if not naslov or not opis or not spremembe or not kategorija or not stroski or not odobritev or not vpliv or not spol or not starost:
-        flash("Vsa polja so obvezna.")
+        flash("Vsa polja označena z * so obvezna!")
         return redirect(url_for("entry"))
     else:
         db.execute(
