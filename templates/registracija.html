@@ -28,20 +28,21 @@
                 <form action="" method="post">
                   {{ form.csrf_token }}
                     <div class="form-group">
-                <label for="usernameInput">Uporabniško ime</label>
-                <input type="text" name="uporabniskoime" class="form-control" id="usernameInput">
+                <label for="usernameInput">Uporabniško ime <span style="font-size: 70%" class="pull-right">Uporabniško ime bo vidno na seznamu vnosov</span></label>
+                <input type="text" name="uporabniskoime" class="form-control" id="usernameInput" placeholder="Vnesite željeno uporabniško ime">
               </div>
               <div class="form-group">
                 <label for="emailInput">Email</label>
-                <input type="email" name="email" class="form-control" id="emailInput">
+                <input type="email" name="email" class="form-control" id="emailInput" oninvalid="this.setCustomValidity('Neveljaven elektronski naslov')"
+                oninput="setCustomValidity('')" placeholder="Vnesite vaš elektronski naslov">
               </div>
               <div class="form-group">
                 <label for="passwordInput">Geslo</label>
-                <input type="password" name="geslo" class="form-control" id="passwordInput">
+                <input type="password" name="geslo" class="form-control" id="passwordInput" placeholder="Vnesite poljubno geslo">
               </div>
               <div class="form-group">
                 <label for="confirmInput">Ponovno geslo</label>
-                <input type="password" name="confirm" class="form-control" id="confirmInput">
+                <input type="password" name="confirm" class="form-control" id="confirmInput" placeholder="Ponovite poljubno geslo">
               </div>
                     <input class="btn btn-primary btn-block" type="submit" value="Registriraj se">
                 </form>

@@ -36,18 +36,22 @@ def login_required(test):
 def register():
     form = RegisterForm(request.form)
 
-    if request.method == "POST" and form.validate():
-        db = connect_db()
-        db.execute("INSERT INTO uporabniki(uporabniskoime, email, geslo) VALUES (?,?,?)", ([
-            form.uporabniskoime.data,
-            form.email.data,
-            form.geslo.data
-        ]))
-        db.commit()
-        db.close()
-        flash("Uspešno ste se registrirali! S prijavo vam je sedaj omogočen vnos izkušenj.")
-        return redirect(url_for("index"))
-    flash("Neuspešna registracija")    
+    if request.method == "POST":
+        if form.validate():
+            db = connect_db()
+            db.execute("INSERT INTO uporabniki(uporabniskoime, email, geslo) VALUES (?,?,?)", ([
+                form.uporabniskoime.data,
+                form.email.data,
+                form.geslo.data
+            ]))
+            db.commit()
+            db.close()
+            flash("Uspešno ste se registrirali! S prijavo vam je sedaj omogočen vnos izkušenj.")
+            return redirect(url_for("index"))
+        else:
+            flash("Neuspešna registracija")
+        
+    
     return render_template("registracija.html", form=form)
 
 
