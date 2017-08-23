@@ -32,44 +32,65 @@
         <div class="col-md-12">
             <h2>Vnosi</h2>
             <table id="entriesTable" class="table table-hover large-only" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                                <th width="300px"><strong>Naslov</strong></th>
-                                <th width="200px"><strong>Kategorija</strong></th>
-                                <th width="150px"><strong>Stroški</strong></th>
-                                <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
-                                <th width="200px"><strong>Vpliv na počutje</strong></th>
-                                <th width="150px"><strong>Avtor</strong></th>
-                                <th><strong></strong></th>
-                                <th><strong></strong></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for vnos in vnosi %}
-                        <tr>
-                                <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
-                                <td width="200px">{{ vnos.kategorija }}</td>
-                                <td width="150px">{{ vnos.stroski }}</td>
-                                <td width="300px">{{ vnos.odobritev }}</td>
-                                <td width="200px">{{ vnos.vpliv }}</td>
-                                <td width="150px" id="user">{{ vnos.uporabnik_id }}</td>
-                                <td>
-                                    <a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
-                                </td>
-                                {% if session["username"] == vnos.uporabnik_id %}
-                                <td>
-                                    <a class="btn btn-danger btn-sm" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">X</a>
-                                </td>
-                                {% else %}
-                                <td>
-                                </td>
-                                {% endif %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <thead>
+                    <tr>
+                        <th width="300px"><strong>Naslov</strong></th>
+                        <th width="200px"><strong>Kategorija</strong></th>
+                        <th width="150px"><strong>Stroški</strong></th>
+                        <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
+                        <th width="200px"><strong>Vpliv na počutje</strong></th>
+                        <th width="150px"><strong>Avtor</strong></th>
+                        <th><strong></strong></th>
+                        <th><strong></strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vnos in vnosi %}
+                    <tr>
+                        <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
+                        <td width="200px">{{ vnos.kategorija }}</td>
+                        <td width="150px">{{ vnos.stroski }}</td>
+                        <td width="300px">{{ vnos.odobritev }}</td>
+                        <td width="200px">{{ vnos.vpliv }}</td>
+                        <td width="150px" id="user">{{ vnos.uporabnik_id }}</td>
+                        <td>
+                            <a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
+                        </td>
+                        {% if session["username"] == vnos.uporabnik_id %}
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">X</button>
+                        </td>
+                        {% else %}
+                        <td>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Izbris vnosa</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Ali ste prepričani, da želite izbrisati svoj vnos?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Ne</button>
+                                    <a class="btn btn-danger" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">Da</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+
         </div>
+
     </div>
+
     {% endblock%}
 </body>
 {% endblock%}
