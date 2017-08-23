@@ -330,3 +330,19 @@ tr.hover {
 .panel > .panel-heading {
 	border-bottom: 1px solid #2980B9;
 }
+
+.dataTables_filter {
+	width: 100%;
+	float: right;
+	text-align: right;
+ }
+
+ .sorting_asc {
+	background: url("../img/sort.png") no-repeat scroll right center transparent;
+	background-size: 11px 11px;
+  }
+  
+  .sorting_desc {
+	background: url("../img/sort.png") no-repeat scroll right center transparent;
+	background-size: 11px 11px;
+  }
