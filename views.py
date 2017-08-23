@@ -47,7 +47,7 @@ def register():
         db.close()
         flash("Uspešno ste se registrirali! S prijavo vam je sedaj omogočen vnos izkušenj.")
         return redirect(url_for("index"))
-
+    flash("Neuspešna registracija")    
     return render_template("registracija.html", form=form)
 
 

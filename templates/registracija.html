@@ -21,6 +21,9 @@
         </div>
 
             <div class="container" id="formContainer">
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
                 <h3>Registriraj se in si pridobi dostop do vpisovanja izkušenj</h3>
                 <form action="" method="post">
                   {{ form.csrf_token }}
@@ -40,7 +43,6 @@
                 <label for="confirmInput">Ponovno geslo</label>
                 <input type="password" name="confirm" class="form-control" id="confirmInput">
               </div>
-                    
                     <input class="btn btn-primary btn-block" type="submit" value="Registriraj se">
                 </form>
             </div>
