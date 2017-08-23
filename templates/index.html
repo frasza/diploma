@@ -31,40 +31,43 @@
     <div class="container-fluid">
         <div class="col-md-12">
             <h2>Vnosi</h2>
-            <table class="table table-hover large-only">
-                <thead>
-                    <tr>
-                        <th width="300px"><strong>Naslov</strong></th>
-                        <th width="200px"><strong>Kategorija</strong></th>
-                        <th width="150px"><strong>Stroški</strong></th>
-                        <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
-                        <th width="200px"><strong>Vpliv na počutje</strong></th>
-                        <th width="150px"><strong>Avtor</strong></th>
-                        <th><strong></strong></th>
-                    </tr>
-                </thead>
-                {% for vnos in vnosi %}
-                <tr>
-                    <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
-                    <td width="200px">{{ vnos.kategorija }}</td>
-                    <td width="150px">{{ vnos.stroski }}</td>
-                    <td width="300px">{{ vnos.odobritev }}</td>
-                    <td width="200px">{{ vnos.vpliv }}</td>
-                    <td width="150px" id="user">{{ vnos.uporabnik_id }}</td>
-                    <td>
-                        <a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
-                    </td>
-                    {% if session["username"] == vnos.uporabnik_id %}
-                    <td>
-                        <a class="btn btn-danger btn-sm" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">X</a>
-                    </td>
-                    {% else %}
-                    <td>
-                    </td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </table>
+            <table id="entriesTable" class="table table-hover large-only" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                                <th width="300px"><strong>Naslov</strong></th>
+                                <th width="200px"><strong>Kategorija</strong></th>
+                                <th width="150px"><strong>Stroški</strong></th>
+                                <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
+                                <th width="200px"><strong>Vpliv na počutje</strong></th>
+                                <th width="150px"><strong>Avtor</strong></th>
+                                <th><strong></strong></th>
+                                <th><strong></strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vnos in vnosi %}
+                        <tr>
+                                <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
+                                <td width="200px">{{ vnos.kategorija }}</td>
+                                <td width="150px">{{ vnos.stroski }}</td>
+                                <td width="300px">{{ vnos.odobritev }}</td>
+                                <td width="200px">{{ vnos.vpliv }}</td>
+                                <td width="150px" id="user">{{ vnos.uporabnik_id }}</td>
+                                <td>
+                                    <a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
+                                </td>
+                                {% if session["username"] == vnos.uporabnik_id %}
+                                <td>
+                                    <a class="btn btn-danger btn-sm" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">X</a>
+                                </td>
+                                {% else %}
+                                <td>
+                                </td>
+                                {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
         </div>
     </div>
     {% endblock%}
