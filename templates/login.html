@@ -21,6 +21,9 @@
         </div>
 
             <div class="container" id="formContainer">
+                    {% for message in get_flashed_messages() %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                    {% endfor %}
                 <h3>Prijava</h3>
                 <form action="" method="post">
                 

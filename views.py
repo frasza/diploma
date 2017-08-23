@@ -74,6 +74,7 @@ def login():
         flash("Uspešno ste se prijavili!")
         return redirect(url_for('index'))
     else:
+        flash("Napačno uporabniško ime ali geslo.")
         return render_template('login.html')
 
 
