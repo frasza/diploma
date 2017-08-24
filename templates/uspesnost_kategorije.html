@@ -8,6 +8,11 @@
 		<title>Uspešnost kategorije | ALSkupnost</title>
 		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>	
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 		<script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
 		
@@ -37,39 +42,60 @@
 				{% endif %}
 				<a class="btn btn-default pull-right" id="toggleVnosi" href="#">Prikaži vse vnose kategorije</a>
 				<div id="tabelaVnosov" style="display:none">
-				<table class="table table-hover large-only">
-                        <thead>
-                            <tr>
-                                <th width="300px"><strong>Naslov</strong></th>
-                                <th width="200px"><strong>Kategorija</strong></th>
-                                <th width="150px"><strong>Stroški</strong></th>
-                                <th width="300px"><strong>Podpora / odobritev medicine</strong></th>
+					<table id="entriesTable" class="table table-hover large-only" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="300px"><strong>Naslov</strong></th>
+								<th width="200px"><strong>Kategorija</strong></th>
+								<th width="150px"><strong>Stroški</strong></th>
+								<th width="300px"><strong>Podpora / odobritev medicine</strong></th>
 								<th width="200px"><strong>Vpliv na počutje</strong></th>
 								<th width="150px"><strong>Avtor</strong></th>
 								<th><strong></strong></th>
-                            </tr>
-                        </thead>
-                        {% for vnos in vnosi %}
-                            <tr>
-                                <td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
-                                <td width="200px">{{ vnos.kategorija }}</td>
-                                <td width="150px">{{ vnos.stroski }}</td>
-                                <td width="300px">{{ vnos.odobritev }}</td>
+								<th><strong></strong></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for vnos in vnosi %}
+							<tr>
+								<td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
+								<td width="200px">{{ vnos.kategorija }}</td>
+								<td width="150px">{{ vnos.stroski }}</td>
+								<td width="300px">{{ vnos.odobritev }}</td>
 								<td width="200px">{{ vnos.vpliv }}</td>
-								<td width="150px">{{ vnos.uporabnik_id }}</td>
+								<td width="150px" id="user">{{ vnos.uporabnik_id }}</td>
 								<td>
-                                    <a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
-                                </td>
-                                {% if session["username"] == vnos.uporabnik_id %}
-                                <td>
-                                   <a class="btn btn-danger btn-sm" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">X</a>
-                                </td>
-                                {% else %}
-                                <td>
-                                </td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
+									<a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
+								</td>
+								{% if session["username"] == vnos.uporabnik_id %}
+								<td>
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">X</button>
+								</td>
+								{% else %}
+								<td>
+								</td>
+								{% endif %}
+							</tr>
+							<!-- Modal -->
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title" id="myModalLabel">Izbris vnosa</h4>
+										</div>
+										<div class="modal-body">
+											Ali ste prepričani, da želite izbrisati svoj vnos?
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Ne</button>
+											<a class="btn btn-danger" id="taskbtn" href="{{ url_for('delete_entry', vnos_id = vnos.vnos_id) }}">Da</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</tbody>
 					</table>
 				</div>	
                     </div>
@@ -343,8 +369,6 @@
 
 		</script>
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='js/javascript.js') }}"></script>
+<script src="{{ url_for('static', filename='js/javascript.js') }}"></script>
 	</body>
 </html>

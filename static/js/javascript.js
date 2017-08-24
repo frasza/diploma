@@ -22,16 +22,3 @@ $(document).ready(function() {
         }
     } );
 } );
-
-$('#entriesTable th').each(function(index, th) {
-    $(th).unbind('click');
-    $(th).append('<button class="sort-btn btn-asc">&#9650;</button>');
-    $(th).append('<button class="sort-btn btn-desc">&#9660;</button>');
-  
-    $(th).find('.btn-asc').click(function() {
-       table.column(index).order('asc').draw();
-    }); 
-    $(th).find('.btn-desc').click(function() {
-       table.column(index).order('desc').draw();      
-    }); 
-  }); 
