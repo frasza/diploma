@@ -215,12 +215,12 @@ tr.hover {
 
 
 #chart, #avgchart {
-    max-width: 650px;
+    max-width: 800px;
     height: auto !important;
     margin: 0 auto;
 }
 
-#pie, #costsPie {
+#pie, #costsPie, #sexchart {
     max-width: 350px;
     height: auto !important;
     margin: 0 auto;
@@ -255,7 +255,7 @@ tr.hover {
 	    margin: 0 auto;
 	}
 
-	#pie, #costsPie {
+	#pie, #costsPie, #sexchart {
 	    max-width: 360px;
 	    height: auto !important;
 	    margin: 0 auto;

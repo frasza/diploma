@@ -103,7 +103,7 @@
             {% if costsValues or priorityLabels or approvalValues|length >= 1 %}
             <div class="container-fluid">
             <div class="row">
-			  <div class="col-lg-6 col-md-12">
+			  <div class="col-lg-12 col-md-12">
 			  	<h3 class="bar-chart-title">Vpliv na počutje</h3>
 				<canvas id="chart"></canvas>
 				<br><br>
@@ -114,15 +114,18 @@
 				<br><br>
 			  </div>
 			  <div class="col-lg-6 col-md-12">
-			  	<h3 class="bar-chart-title">Spol in povprečna starost bolnikov</h3>
-				<canvas id="avgchart"></canvas>
-				<br><br>
-			  </div>
-			  <div class="col-lg-6 col-md-12">
 			  	<h3 class="pie-chart-title">Delež stroškov v odstotkih</h3>
 				<canvas id="costsPie"></canvas>
 				<br><br>
 			  </div>
+			  <div class="col-lg-6 col-md-12">
+				<h3 class="pie-chart-title">Delež spolov v odstotkih</h3>
+			  	<canvas id="sexchart"></canvas>
+			</div>
+			<div class="col-lg-6 col-md-12">
+				<h3 class="pie-chart-title">Povprečna starost na spol</h3>
+				<canvas id="avgchart"></canvas>
+			</div>
 			</div>
 			</body>
             {% else %}
@@ -144,7 +147,7 @@
 		            {% endfor %}],
 		  datasets : [{
 		      label: '{{ legend }}',
-		      backgroundColor: "#1f77b4",
+		      backgroundColor: "#2980b9",
 		      data : [{% for item in priorityLabels %}
 		                " {{item}}",
 		              {% endfor %}]
@@ -156,7 +159,7 @@
 		             "{{item}}",
 		            {% endfor %}],
 		  datasets : [{
-		      backgroundColor: ["#1f77b4", "#FF7F0E", "#2CA02C"],
+		      backgroundColor: ["#2980b9", "#e67e22", "#27ae60"],
 		      data : [{% for item in approvalValues %}
 		                " {{item}}",
 		              {% endfor %}]
@@ -169,7 +172,7 @@
 		             "{{item}}",
 		            {% endfor %}],
 		  datasets : [{
-		      backgroundColor: ["#1f77b4", "#FF7F0E", "#2CA02C", "#D62728", "#9467BD"],
+		      backgroundColor: ["#2980b9", "#e67e22", "#27ae60", "#e74c3c", "#9467BD"],
 		      data : [{% for item in costsValues %}
 		                " {{item}}",
 		              {% endfor %}]
@@ -177,24 +180,26 @@
 
 		}
 
-		var avgChartData = {
-			datasets: [{
-				label: '{{ legend }}',
-				backgroundColor: ["#2CA02C", "#D62728",],
-				data: [{% for item in countSex %}
+		var sexChartData = {
+			labels : [{% for item in sexLabels %}
+						"{{item}}",
+					{% endfor %}],
+			datasets : [{
+				backgroundColor: ['#27ae60', '#e74c3c'],
+				data : [{% for item in countSex %}
 						" {{item}}",
 						{% endfor %}]
-				},
-				
+			}]
+		}
+
+		var avgChartData = {
+			datasets: [				
 				{
 				label: '{{ avg }}',
 				data: [{% for item in avgAge %}
 						" {{item}}",
 						{% endfor %}],
-				
-				type: 'bubble',
-				backgroundColor: ['#FF6384', '#FF6384'],
-				borderColor: ['#FF6384', '#FF6384'],
+				backgroundColor: ['#27ae60', '#e74c3c'],
 				borderWidth: 2
 				}],
 			labels: [{% for item in sexLabels %}
@@ -248,7 +253,7 @@
 				}
 		}
 
-		var SexChartOptions = {
+		var avgChartOptions = {
 		scales: {
 			yAxes: [{
 				ticks: {
@@ -256,7 +261,7 @@
 				},
 				scaleLabel: {
 					display: true,
-					labelString: 'Število vnosov in povprečje glede na spol'
+					labelString: 'Povprečna starost na spol'
 				}
 			}]
 		},
@@ -339,8 +344,9 @@
 		// get chart canvas
 		var ctx = document.getElementById("chart").getContext("2d");
 		var cta = document.getElementById("pie").getContext("2d");
-		var ctb = document.getElementById("avgchart").getContext("2d");
+		var ctb = document.getElementById("sexchart").getContext("2d");
 		var ctc = document.getElementById("costsPie").getContext("2d");
+		var ctd = document.getElementById("avgchart").getContext("2d");
 
 		 
 		// create the chart using the chart canvas
@@ -355,16 +361,22 @@
 		    data: pieData,
 		    options: PieOptions
 		});
-		var avgChart = new Chart(ctb, {
-		  type: 'bar',
-		  data: avgChartData,
-		  options: SexChartOptions
+		var sexChart = new Chart(ctb, {
+		  type: 'pie',
+		  data: sexChartData,
+		  options: PieOptions
 		});
 
 		var costsPieChart = new Chart(ctc,{
 		    type: 'pie',
 		    data: costspieData,
 		    options: PieOptions
+		});
+
+		var avgChart = new Chart(ctd, {
+		  type: 'bar',
+		  data: avgChartData,
+		  options: avgChartOptions
 		});
 
 		</script>

@@ -205,7 +205,7 @@ def category_success(kategorija):
     c = db.execute("SELECT starost FROM vnosi WHERE kategorija = ? GROUP BY starost", [kategorija])
     ageLabels = c.fetchall()
 
-    c = db.execute("SELECT count(spol) from vnosi WHERE kategorija = ? group by spol", [kategorija])
+    c = db.execute("SELECT 100 * count(*) / (SELECT count(*) FROM vnosi WHERE kategorija = ?) FROM vnosi WHERE kategorija = ? GROUP BY spol", [kategorija, kategorija])
     countSex = c.fetchall()
 
     c = db.execute("SELECT spol FROM vnosi WHERE kategorija = ? GROUP BY spol", [kategorija])
