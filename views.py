@@ -8,6 +8,8 @@ from flask_sslify import SSLify
 
 from forms import NewEntry, RegisterForm, LoginForm
 
+import datetime
+
 # Config
 app = Flask(__name__)
 app.config.from_object("_config")
@@ -87,9 +89,9 @@ def index():
     db = connect_db()
 
     c = db.execute(
-        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id")
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime, cas FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id ORDER BY cas DESC")
     vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
-                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10]) for row in c.fetchall()]
+                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10], cas=row[11]) for row in c.fetchall()]
     db.close()
 
     return render_template(
@@ -119,12 +121,14 @@ def new_entry():
     spol = request.form["spol"]
     starost = request.form["starost"]
     uporabnik_id = session["user_id"]
+    now = datetime.datetime.now()
+    cas = now.strftime("%d-%m-%Y %H:%M")
     if not naslov or not opis or not spremembe or not kategorija or not stroski or not odobritev or not vpliv or not spol or not starost:
         flash("Vsa polja označena z * so obvezna!")
         return redirect(url_for("entry"))
     else:
         db.execute(
-            "INSERT INTO vnosi (naslov, opis, spremembe, kategorija, stroski, odobritev, vpliv, spol, starost, uporabnik_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO vnosi (naslov, opis, spremembe, kategorija, stroski, odobritev, vpliv, spol, starost, uporabnik_id, cas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 naslov,
                 opis,
@@ -135,7 +139,8 @@ def new_entry():
                 vpliv,
                 spol,
                 starost,
-                uporabnik_id
+                uporabnik_id,
+                cas
             ]
         )
         db.commit()
@@ -150,11 +155,11 @@ def izkusnja(vnos_id):
     db = connect_db()
 
     c = db.execute(
-        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE vnos_id=?",
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime, cas FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE vnos_id=?",
         [vnos_id])
 
     vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
-                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10]) for row in c.fetchall()]
+                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10], cas=row[11]) for row in c.fetchall()]
 
     return render_template("izkusnja.html", vnosi=vnosi)
 
@@ -171,11 +176,11 @@ def category_success(kategorija):
     db = connect_db()
 
     c = db.execute(
-        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE kategorija=?",
+        "SELECT vnosi.naslov, vnosi.opis, vnosi.spremembe, vnosi.kategorija, vnosi.stroski, vnosi.odobritev, vnosi.vpliv, vnosi.spol, vnosi.starost, vnosi.vnos_id, uporabniki.uporabniskoime, cas FROM vnosi JOIN uporabniki ON vnosi.uporabnik_id = uporabniki.id WHERE kategorija=?",
         [kategorija])
 
     vnosi = [dict(naslov=row[0], opis=row[1], spremembe=row[2], kategorija=row[3], stroski=row[4], odobritev=row[5],
-                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10]) for row in c.fetchall()]
+                    vpliv=row[6], spol=row[7], starost=row[8], vnos_id=row[9], uporabnik_id=row[10], cas=row[11]) for row in c.fetchall()]
 
     c = db.execute("SELECT COUNT(vpliv) FROM vnosi WHERE kategorija = ? GROUP BY vpliv", [kategorija])
     priorityLabels = c.fetchall()

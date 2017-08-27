@@ -48,9 +48,10 @@
 								<th width="300px"><strong>Naslov</strong></th>
 								<th width="200px"><strong>Kategorija</strong></th>
 								<th width="150px"><strong>Mesečni stroški</strong></th>
-								<th width="300px"><strong>Podpora / odobritev medicine</strong></th>
+								<th width="250px"><strong>Podpora / odobritev medicine</strong></th>
 								<th width="200px"><strong>Vpliv na počutje</strong></th>
 								<th width="150px"><strong>Avtor</strong></th>
+								<th width="150px"><strong>Čas vnosa</strong></th>
 								<th><strong></strong></th>
 								<th><strong></strong></th>
 							</tr>
@@ -61,9 +62,10 @@
 								<td width="300px" class="mobile-title">{{ vnos.naslov }}</td>
 								<td width="200px">{{ vnos.kategorija }}</td>
 								<td width="150px">{{ vnos.stroski }}</td>
-								<td width="300px">{{ vnos.odobritev }}</td>
+								<td width="250px">{{ vnos.odobritev }}</td>
 								<td width="200px">{{ vnos.vpliv }}</td>
 								<td width="150px" id="user">{{ vnos.uporabnik_id }}</td>
+								<td width="150px" id="user">{{ vnos.cas }}</td>
 								<td>
 									<a class="btn btn-success btn-sm" id="taskbtn" href="{{ url_for('izkusnja', vnos_id = vnos.vnos_id) }}">Preberi več</a>
 								</td>
@@ -139,7 +141,7 @@
 		  // Global parameters:
 		// do not resize the chart canvas when its container does (keep at 600x400px)
 		Chart.defaults.global.legend.position = 'bottom';
-		 
+	 
 		// define the chart data
 		var chartData = {
 		  labels : [{% for item in labels %}
