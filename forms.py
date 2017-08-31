@@ -15,10 +15,10 @@ class NewEntry(Form):
                                ("Zdravila", "Zdravila"),("Drugo", "Drugo"),
                            ]
                            )
-    stroski = SelectField("Stroški", [validators.Required("Izberite mesečne stroške")],
+    stroski = SelectField("Stroški", [validators.Required("Izberite stroške")],
                         choices=[
                             ("Ni stroškov", "Ni stroškov"), ("10-50 €", "10-50 €"), ("50-100 €", "50-100 €"), ("100-500 €", "100-500 €"),
-                            ("500-1000 €", "500-1000 €"), ("Več kot 1000 € mesečno", "Več kot 1000 € mesečno"),
+                            ("500-1000 €", "500-1000 €"), ("Več kot 1000 €", "Več kot 1000 €"),
                         ]
                         )
     odobritev = SelectField("Odobritev", [validators.Required("Vnesite ali je vaša izkušnja podprta / odobrena s strani medicine")],
